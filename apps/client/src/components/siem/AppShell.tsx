@@ -11,6 +11,7 @@ import {
   LogOut,
   Menu,
   Moon,
+  Radio,
   Search,
   Settings,
   ShieldAlert,
@@ -31,6 +32,7 @@ const navigation = [
       { label: "Dashboard", to: "/", icon: LayoutDashboard },
       { label: "Alerts", to: "/alerts", icon: CircleAlert },
       { label: "Incidents", to: "/incidents", icon: ShieldAlert },
+      { label: "Live Simulator", to: "/simulator", icon: Radio },
     ],
   },
   {
@@ -100,14 +102,14 @@ export function AppShell({ children }: { children: ReactNode }) {
                   className={({ isActive }: { isActive: boolean }) =>
                     `group relative flex items-center gap-3 rounded-md px-3 py-2 text-[13px] font-medium transition-colors ${
                       isActive
-                        ? "bg-cyan-500/10 text-cyan-600 dark:text-cyan-400"
+                        ? "bg-lime-400/10 text-lime-600 dark:text-lime-400"
                         : "text-muted-foreground hover:bg-muted/65 hover:text-foreground"
                     }`
                   }
                 >
                   {({ isActive }: { isActive: boolean }) => (
                     <>
-                      {isActive && <span className="absolute -left-3 top-1.5 bottom-1.5 w-0.5 rounded-r bg-cyan-500" />}
+                      {isActive && <span className="absolute -left-3 top-1.5 bottom-1.5 w-0.5 rounded-r bg-lime-400" />}
                       <item.icon className="size-4" strokeWidth={1.8} />
                       {item.label}
                     </>
@@ -184,7 +186,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder="Search alerts, users, event types..."
-              className="h-9 w-full rounded-md border border-border bg-muted/35 pl-9 pr-14 text-xs outline-none transition focus:border-cyan-500/60 focus:ring-2 focus:ring-cyan-500/10"
+              className="h-9 w-full rounded-md border border-border bg-muted/35 pl-9 pr-14 text-xs outline-none transition focus:border-lime-400/60 focus:ring-2 focus:ring-lime-400/10"
             />
             <span className="pointer-events-none absolute right-2 top-1/2 inline-flex -translate-y-1/2 items-center gap-0.5 rounded border border-border bg-background px-1.5 py-0.5 text-[9px] text-muted-foreground">
               <Command className="size-2.5" />K
@@ -206,7 +208,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               aria-label="Notifications"
             >
               <Bell className="size-4" />
-              {alerts.length > 0 && <span className="absolute right-1.5 top-1.5 size-1.5 rounded-full bg-cyan-500 ring-2 ring-background" />}
+              {alerts.length > 0 && <span className="absolute right-1.5 top-1.5 size-1.5 rounded-full bg-lime-400 ring-2 ring-background" />}
             </button>
             <div className="relative ml-1">
               <button
@@ -214,7 +216,7 @@ export function AppShell({ children }: { children: ReactNode }) {
                 onClick={() => setProfileOpen((open) => !open)}
                 className="flex h-10 items-center gap-2 rounded-md border border-border bg-card px-2 transition hover:bg-muted/55"
               >
-                <span className="grid size-7 place-items-center rounded-md bg-cyan-500/12 text-[10px] font-semibold text-cyan-600 dark:text-cyan-400">
+                <span className="grid size-7 place-items-center rounded-md bg-lime-400/12 text-[10px] font-semibold text-lime-600 dark:text-lime-400">
                   {initials}
                 </span>
                 <span className="hidden text-left sm:block">

@@ -13,6 +13,7 @@ import TimelinePage from "./pages/timeline/Index";
 import PlaybooksPage from "./pages/playbooks/Index";
 import ReportsPage from "./pages/reports/Index";
 import SettingsPage from "./pages/settings/Index";
+import SimulatorPage from "./pages/simulator/Index";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { AuthProvider } from "./contexts/AuthContext";
 import { SecurityDataProvider } from "./contexts/SecurityDataContext";
@@ -54,6 +55,7 @@ const App = () => (
                 <Route path="/playbooks" element={<PlaybooksPage />} />
                 <Route path="/reports" element={<ReportsPage />} />
                 <Route path="/settings" element={<SettingsPage />} />
+                <Route path="/simulator" element={<SimulatorPage />} />
               </Route>
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />

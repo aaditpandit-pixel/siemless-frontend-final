@@ -142,9 +142,8 @@ export function SecurityDataProvider({ children }: { children: ReactNode }) {
       toast.success(`${action} recorded`, {
         description: "The response action was appended to raw_logs for auditability.",
       });
-      void refresh();
     },
-    [refresh, user],
+    [user],
   );
 
   const updateStatus = useCallback(
@@ -160,10 +159,18 @@ export function SecurityDataProvider({ children }: { children: ReactNode }) {
         return;
       }
 
-      if (targetType === "alert") {
-        setAlerts((items) => items.filter((item) => item.id !== targetId));
+      if (status === "resolved") {
+        if (targetType === "alert") {
+          setAlerts((items) => items.filter((item) => item.id !== targetId));
+        } else {
+          setIncidents((items) => items.filter((item) => item.id !== targetId));
+        }
       } else {
-        setIncidents((items) => items.filter((item) => item.id !== targetId));
+        if (targetType === "alert") {
+          setAlerts((items) => items.map((item) => (item.id === targetId ? { ...item, status } : item)));
+        } else {
+          setIncidents((items) => items.map((item) => (item.id === targetId ? { ...item, status } : item)));
+        }
       }
 
       toast.success(status === "resolved" ? "Marked as resolved" : `Status updated to ${status}`);

@@ -30,7 +30,7 @@ export default function AnalyticsPage() {
   const categories = buildAttackTypes(alerts, incidents);
   const userRisk = buildUserRisk(alerts, incidents);
   const scores = alerts.map((item) => Number(item.score ?? 0)).filter(Number.isFinite);
-  const accuracy = scores.length ? Math.round(scores.reduce((sum, score) => sum + score, 0) / scores.length) : 0;
+  const accuracy = scores.length ? Math.round((scores.reduce((sum, score) => sum + score, 0) / scores.length) * 100) : 0;
   const threatScore = calculateThreatScore(alerts, incidents);
   const affectedUsers = new Set([...alerts, ...incidents].map((item) => item.user_id).filter(Boolean)).size;
   const scoreData = useMemo(
