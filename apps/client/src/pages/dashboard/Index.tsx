@@ -28,7 +28,7 @@ import {
   buildSparkline,
   calculateThreatScore,
 } from "@/lib/analytics";
-import { normalizeChain, normalizeSeverity } from "@/lib/siem-types";
+import { normalizeChain, normalizeSeverity, toDate } from "@/lib/siem-types";
 
 const severityColors: Record<string, string> = {
   critical: "#ef4444",
@@ -105,11 +105,11 @@ export default function DashboardPage() {
           icon={<CircleAlert className="size-4" />}
         />
         <KpiCard
-          label="Threat Score"
-          value={`${threatScore}/100`}
-          subtext={threatScore >= 75 ? "Immediate attention recommended" : threatScore >= 50 ? "Elevated operating risk" : "Within monitored range"}
-          data={scoreSpark}
-          icon={<Gauge className="size-4" />}
+          label="Total Events"
+          value={alerts.length + incidents.length}
+          subtext={`${alerts.length} alerts · ${incidents.length} incidents`}
+          data={threatSpark}
+          icon={<Activity className="size-4" />}
         />
       </div>
 
@@ -212,9 +212,9 @@ export default function DashboardPage() {
                     </span>
                     <span className="text-right">
                       <span className="block text-[10px] text-muted-foreground">
-                        {formatDistanceToNow(new Date(incident.created_at), { addSuffix: true })}
+                        {formatDistanceToNow(toDate(incident.created_at), { addSuffix: true })}
                       </span>
-                      <span className="mt-1 block text-[9px] font-medium uppercase tracking-[0.08em] text-cyan-500">
+                      <span className="mt-1 block text-[9px] font-medium uppercase tracking-[0.08em] text-lime-500">
                         {normalizeSeverity(incident.severity) === "critical" ? "Open" : "Monitoring"}
                       </span>
                     </span>

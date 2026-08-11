@@ -5,7 +5,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { EmptyState } from "@/components/siem/EmptyState";
 import { SeverityBadge } from "@/components/siem/SeverityBadge";
 import { useSecurityData } from "@/contexts/SecurityDataContext";
-import { normalizeSeverity } from "@/lib/siem-types";
+import { normalizeSeverity, toDate } from "@/lib/siem-types";
 
 export default function AlertsPage() {
   const { alerts, loading } = useSecurityData();
@@ -41,7 +41,7 @@ export default function AlertsPage() {
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder="Search event, user, or summary"
-              className="h-9 w-full rounded-md border border-border bg-muted/25 pl-9 pr-3 text-xs outline-none focus:border-cyan-500/60"
+              className="h-9 w-full rounded-md border border-border bg-muted/25 pl-9 pr-3 text-xs outline-none focus:border-lime-400/60"
             />
           </label>
           <label className="relative">
@@ -49,7 +49,7 @@ export default function AlertsPage() {
             <select
               value={severity}
               onChange={(event) => setSeverity(event.target.value)}
-              className="h-9 rounded-md border border-border bg-card pl-9 pr-8 text-xs outline-none focus:border-cyan-500/60"
+              className="h-9 rounded-md border border-border bg-card pl-9 pr-8 text-xs outline-none focus:border-lime-400/60"
             >
               <option value="all">All severities</option>
               <option value="critical">Critical</option>
@@ -89,16 +89,16 @@ export default function AlertsPage() {
                     </td>
                     <td className="px-4 py-3.5"><SeverityBadge severity={alert.severity} /></td>
                     <td className="px-4 py-3.5 text-xs text-muted-foreground">{alert.user_id || "unknown"}</td>
-                    <td className="px-4 py-3.5 text-xs font-semibold tabular-nums">{Number(alert.score ?? 0).toFixed(0)}</td>
+                    <td className="px-4 py-3.5 text-xs font-semibold tabular-nums">{Math.round(Number(alert.score ?? 0) * 100)}</td>
                     <td className="px-4 py-3.5">
-                      <p className="text-xs">{formatDistanceToNow(new Date(alert.created_at), { addSuffix: true })}</p>
-                      <p className="mt-0.5 text-[9px] text-muted-foreground">{format(new Date(alert.created_at), "MMM d, HH:mm")}</p>
+                      <p className="text-xs">{formatDistanceToNow(toDate(alert.created_at), { addSuffix: true })}</p>
+                      <p className="mt-0.5 text-[9px] text-muted-foreground">{format(toDate(alert.created_at), "MMM d, HH:mm")}</p>
                     </td>
                     <td className="px-4 py-3.5 text-right">
                       <button
                         type="button"
                         onClick={() => navigate(`/alerts/${alert.id}`)}
-                        className="inline-flex items-center gap-1 text-xs font-medium text-cyan-500"
+                        className="inline-flex items-center gap-1 text-xs font-medium text-lime-500"
                       >
                         Open <ArrowUpRight className="size-3" />
                       </button>

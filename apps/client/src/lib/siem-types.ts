@@ -1,3 +1,7 @@
+export function toDate(value: string): Date {
+  return new Date(value.endsWith("Z") ? value : `${value}Z`);
+}
+
 export type Severity = "critical" | "high" | "medium" | "low" | "info" | string;
 
 export interface AlertRecord {

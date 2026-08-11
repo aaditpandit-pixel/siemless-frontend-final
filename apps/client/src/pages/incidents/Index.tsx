@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { EmptyState } from "@/components/siem/EmptyState";
 import { SeverityBadge } from "@/components/siem/SeverityBadge";
 import { useSecurityData } from "@/contexts/SecurityDataContext";
-import { normalizeChain } from "@/lib/siem-types";
+import { normalizeChain, toDate } from "@/lib/siem-types";
 
 export default function IncidentsPage() {
   const { incidents: allIncidents, loading } = useSecurityData();
@@ -35,7 +35,7 @@ export default function IncidentsPage() {
                   </div>
                   <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-[10px] text-muted-foreground">
                     <span>User {incident.user_id || "unknown"}</span>
-                    <span>{formatDistanceToNow(new Date(incident.created_at), { addSuffix: true })}</span>
+                    <span>{formatDistanceToNow(toDate(incident.created_at), { addSuffix: true })}</span>
                     <span className="inline-flex items-center gap-1"><Network className="size-3" /> {chain.length} chain steps</span>
                   </div>
                   <div className="mt-3 flex items-center gap-1.5 overflow-hidden">

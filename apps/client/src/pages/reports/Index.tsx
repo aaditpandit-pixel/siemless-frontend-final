@@ -5,7 +5,7 @@ import { EmptyState } from "@/components/siem/EmptyState";
 import { SeverityBadge } from "@/components/siem/SeverityBadge";
 import { useSecurityData } from "@/contexts/SecurityDataContext";
 import { buildAttackTypes, buildUserRisk, calculateThreatScore } from "@/lib/analytics";
-import { normalizeSeverity } from "@/lib/siem-types";
+import { normalizeSeverity, toDate } from "@/lib/siem-types";
 
 export default function ReportsPage() {
   const { alerts, incidents } = useSecurityData();
@@ -34,7 +34,7 @@ export default function ReportsPage() {
           { label: "Affected users", value: users.length, icon: UsersRound, detail: `${alerts.length} alert records` },
         ].map((item) => (
           <div key={item.label} className="dashboard-panel">
-            <item.icon className="size-4 text-cyan-500" />
+            <item.icon className="size-4 text-lime-500" />
             <p className="mt-5 text-[10px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">{item.label}</p>
             <p className="mt-1 text-3xl font-semibold tracking-[-0.04em] tabular-nums">{item.value}</p>
             <p className="mt-2 text-[10px] text-muted-foreground">{item.detail}</p>
@@ -64,7 +64,7 @@ export default function ReportsPage() {
                 <div key={item.id} className="rounded-lg border border-border bg-muted/18 p-3">
                   <div className="flex items-center justify-between gap-3">
                     <SeverityBadge severity={item.severity} />
-                    <span className="text-[9px] text-muted-foreground">{format(new Date(item.created_at), "MMM d, HH:mm")}</span>
+                    <span className="text-[9px] text-muted-foreground">{format(toDate(item.created_at), "MMM d, HH:mm")}</span>
                   </div>
                   <p className="mt-2 line-clamp-2 text-xs font-medium">{item.summary || "Security incident"}</p>
                   <p className="mt-1 text-[9px] text-muted-foreground">Affected user: {item.user_id}</p>

@@ -4,7 +4,7 @@ import { CheckCircle2, CircleDot, Clock3, TriangleAlert } from "lucide-react";
 import { EmptyState } from "@/components/siem/EmptyState";
 import { SeverityBadge } from "@/components/siem/SeverityBadge";
 import { useSecurityData } from "@/contexts/SecurityDataContext";
-import { normalizeChain } from "@/lib/siem-types";
+import { normalizeChain, toDate } from "@/lib/siem-types";
 
 export default function TimelinePage() {
   const { incidents } = useSecurityData();
@@ -32,13 +32,13 @@ export default function TimelinePage() {
                   onClick={() => setSelectedId(incident.id)}
                   className={`w-full rounded-lg border p-3 text-left transition ${
                     selected?.id === incident.id
-                      ? "border-cyan-500/35 bg-cyan-500/8"
+                      ? "border-lime-400/35 bg-lime-400/8"
                       : "border-transparent hover:border-border hover:bg-muted/25"
                   }`}
                 >
                   <div className="flex items-center justify-between gap-2">
                     <SeverityBadge severity={incident.severity} />
-                    <span className="text-[9px] text-muted-foreground">{format(new Date(incident.created_at), "MMM d")}</span>
+                    <span className="text-[9px] text-muted-foreground">{format(toDate(incident.created_at), "MMM d")}</span>
                   </div>
                   <p className="mt-2 line-clamp-2 text-xs font-medium">{incident.summary || "Security incident"}</p>
                   <p className="mt-1 text-[9px] text-muted-foreground">{normalizeChain(incident.chain).length} steps · {incident.user_id}</p>
@@ -84,7 +84,7 @@ export default function TimelinePage() {
                         </div>
                         <span className="inline-flex items-center gap-1 text-[9px] text-muted-foreground">
                           <Clock3 className="size-3" />
-                          {step.timestamp ? format(new Date(step.timestamp), "MMM d, HH:mm:ss") : `T+${index * 4}m`}
+                          {step.timestamp ? format(toDate(step.timestamp), "MMM d, HH:mm:ss") : `T+${index * 4}m`}
                         </span>
                       </div>
                       <p className="mt-2 text-xs leading-5 text-muted-foreground">
